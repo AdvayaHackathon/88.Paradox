@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Checkout</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <h1>Checkout</h1>
+  </header>
+
+  <main>
+    <div id="checkout-info">
+      <h2>Loading book info...</h2>
+    </div>
+
+    <form id="checkout-form" style="display:none;">
+      <input type="text" id="name" placeholder="Full Name" required />
+      <input type="email" id="email" placeholder="Email" required />
+      <input type="text" id="address" placeholder="Shipping Address" required />
+      <button type="submit">Confirm Purchase</button>
+    </form>
+
+    <div id="confirmation" style="display: none; text-align: center; margin-top: 2rem;">
+      <h2>🎉 Thank you for your purchase!</h2>
+      <p>Your order will be shipped to the provided address.</p>
+      <button onclick="window.location.href='index.html'">Back to Home</button>
+    </div>
+  </main>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const bookTitle = decodeURIComponent(params.get('title'));
+
+    const checkoutInfo = document.getElementById('checkout-info');
+    const checkoutForm = document.getElementById('checkout-form');
+    const confirmation = document.getElementById('confirmation');
+
+    if (bookTitle) {
+      checkoutInfo.innerHTML = `
+        <h2>You're buying: <span style="color: #3498db">${bookTitle}</span></h2>
+        <p>Please enter your address to complete the purchase.</p>
+      `;
+      checkoutForm.style.display = 'block';
+    }
+
+    checkoutForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const address = document.getElementById('address').value.trim();
+
+      if (name && email && address) {
+        checkoutForm.style.display = 'none';
+        checkoutInfo.style.display = 'none';
+        confirmation.style.display = 'block';
+      } else {
+        alert("Please fill in all fields.");
+      }
+    });
+  </script>
+</body>
+</html>

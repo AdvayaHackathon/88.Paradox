@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sell Your Book</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <h1>Sell a Book</h1>
+    <nav>
+      <a href="index.html">Browse</a>
+      <a href="sell.html">Sell</a>
+      <a href="#">Login</a>
+    </nav>
+  </header>
+
+  <main>
+    <form id="sellForm">
+      <label>Book Title:</label><br />
+      <input type="text" id="title" required /><br />
+
+      <label>Author:</label><br />
+      <input type="text" id="author" required /><br />
+
+      <label>Price ($):</label><br />
+      <input type="number" id="price" step="0.01" required /><br />
+
+      <button type="submit">Submit</button>
+    </form>
+  </main>
+
+  <script>
+    document.getElementById('sellForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const title = document.getElementById('title').value;
+      const author = document.getElementById('author').value;
+      const price = document.getElementById('price').value;
+
+      const book = {
+        id: Date.now(),
+        title,
+        author,
+        price
+      };
+
+      const books = JSON.parse(localStorage.getItem('userBooks') || '[]');
+      books.push(book);
+      localStorage.setItem('userBooks', JSON.stringify(books));
+
+      // Redirect to homepage
+      window.location.href = 'index.html';
+    });
+  </script>
+</body>
+</html>
